@@ -56,7 +56,7 @@ function Index() {
    ================================================================== */
 function Hero() {
   return (
-    <section className="relative mx-auto w-full max-w-[1320px] px-8 pt-10 pb-20 lg:px-14">
+    <section className="relative mx-auto w-full max-w-[1320px] px-4 pt-6 pb-16 sm:px-6 sm:pt-10 lg:px-14 lg:pb-20">
       <div className="mb-16 flex items-center justify-between">
         <Wordmark size={28} />
         <div className="hidden items-center gap-8 md:flex">
@@ -77,7 +77,7 @@ function Hero() {
           <h1
             className="font-display-soft text-ink rise"
             style={{
-              fontSize: "clamp(56px, 9vw, 132px)",
+              fontSize: "clamp(40px, 11vw, 132px)",
               lineHeight: 0.92,
               letterSpacing: "-0.035em",
               fontVariationSettings: '"opsz" 144, "SOFT" 100, "wght" 380',
@@ -91,8 +91,8 @@ function Hero() {
             fear.
           </h1>
           <p
-            className="mt-10 max-w-2xl text-ink-2"
-            style={{ fontSize: 19, lineHeight: 1.55 }}
+            className="mt-6 max-w-2xl text-ink-2 text-base sm:mt-10 sm:text-lg"
+            style={{ lineHeight: 1.55 }}
           >
             <strong className="text-ink">SolicePay</strong> turns a chat on
             WhatsApp, Instagram, or TikTok into a stamped, protected
@@ -205,7 +205,7 @@ function JourneyIntro() {
   return (
     <section
       id="journey"
-      className="mx-auto max-w-[1320px] px-8 pt-24 pb-10 lg:px-14"
+      className="mx-auto max-w-[1320px] px-4 pt-16 pb-8 sm:px-6 sm:pt-24 sm:pb-10 lg:px-14"
     >
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-3">
@@ -213,7 +213,7 @@ function JourneyIntro() {
           <div
             className="mt-2 font-display"
             style={{
-              fontSize: 64,
+              fontSize: "clamp(36px, 7vw, 64px)",
               lineHeight: 0.95,
               letterSpacing: "-0.03em",
               fontVariationSettings: '"opsz" 144, "SOFT" 50, "wght" 420',
@@ -263,7 +263,7 @@ function JourneyIntro() {
    ================================================================== */
 function JourneyGrid() {
   return (
-    <section className="mx-auto max-w-[1320px] px-8 pb-32 lg:px-14">
+    <section className="mx-auto max-w-[1320px] px-4 pb-20 sm:px-6 sm:pb-32 lg:px-14">
       <div className="grid gap-x-16 gap-y-32 lg:grid-cols-2">
         <Step
           n="01"
@@ -342,12 +342,12 @@ function Step({
   align?: "left" | "right";
 }) {
   const left = (
-    <div className="flex flex-col">
-      <div className="flex items-baseline gap-4">
+    <div className="flex w-full min-w-0 flex-col">
+      <div className="flex items-baseline gap-3 sm:gap-4">
         <span
-          className="font-display-soft"
+          className="font-display-soft shrink-0"
           style={{
-            fontSize: 96,
+            fontSize: "clamp(56px, 14vw, 96px)",
             lineHeight: 0.85,
             color: "var(--color-seal-deep)",
             fontVariationSettings: '"opsz" 144, "SOFT" 100, "wght" 380',
@@ -356,21 +356,25 @@ function Step({
         >
           {n}
         </span>
-        <div className="flex flex-col">
+        <div className="flex min-w-0 flex-col">
           <span className="tiny-caps text-ink-3">
             Step {n} · {actor}
           </span>
           <span
             className="font-display text-ink mt-1"
-            style={{ fontSize: 30, lineHeight: 1.05, letterSpacing: "-0.015em" }}
+            style={{
+              fontSize: "clamp(22px, 5vw, 30px)",
+              lineHeight: 1.05,
+              letterSpacing: "-0.015em",
+            }}
           >
             {title}
           </span>
         </div>
       </div>
       <p
-        className="mt-6 max-w-md text-ink-2"
-        style={{ fontSize: 16, lineHeight: 1.6 }}
+        className="mt-5 max-w-md text-ink-2 text-sm sm:mt-6 sm:text-base"
+        style={{ lineHeight: 1.6 }}
       >
         {body}
       </p>
@@ -379,9 +383,9 @@ function Step({
 
   return (
     <div
-      className={`flex flex-col items-center gap-10 lg:flex-row ${align === "right" ? "lg:flex-row-reverse" : ""}`}
+      className={`flex w-full min-w-0 flex-col items-center gap-10 lg:flex-row ${align === "right" ? "lg:flex-row-reverse" : ""}`}
     >
-      <div className="flex-1">{left}</div>
+      <div className="min-w-0 flex-1">{left}</div>
       <div className="shrink-0">{phone}</div>
     </div>
   );
@@ -479,12 +483,12 @@ function DualStep() {
    ================================================================== */
 function Anatomy() {
   return (
-    <section className="mx-auto max-w-[1320px] px-8 pb-32 lg:px-14">
+    <section className="mx-auto max-w-[1320px] px-4 pb-20 sm:px-6 sm:pb-32 lg:px-14">
       <div className="mb-12">
         <div className="tiny-caps text-ink-3">Chapter II</div>
         <h2
           className="font-display mt-2"
-          style={{ fontSize: 64, lineHeight: 0.95, letterSpacing: "-0.03em" }}
+          style={{ fontSize: "clamp(36px, 7vw, 64px)", lineHeight: 0.95, letterSpacing: "-0.03em" }}
         >
           Anatomy of a{" "}
           <em style={{ color: "var(--color-seal-deep)" }}>TrustLink.</em>
@@ -534,13 +538,13 @@ function Anatomy() {
 function DisputeBranch() {
   return (
     <section className="border-t border-line bg-paper-2/30 py-32">
-      <div className="mx-auto max-w-[1320px] px-8 lg:px-14">
+      <div className="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-14">
         <div className="mb-16 grid items-end gap-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <div className="tiny-caps text-clay">Chapter III · The branch</div>
             <h2
               className="font-display mt-2"
-              style={{ fontSize: 64, lineHeight: 0.95, letterSpacing: "-0.03em" }}
+              style={{ fontSize: "clamp(36px, 7vw, 64px)", lineHeight: 0.95, letterSpacing: "-0.03em" }}
             >
               When something goes{" "}
               <em style={{ color: "var(--color-clay)" }}>wrong.</em>
@@ -613,7 +617,7 @@ function DisputeBranch() {
 function ClosingFooter() {
   return (
     <footer className="border-t border-line bg-ink text-paper">
-      <div className="mx-auto grid max-w-[1320px] gap-12 px-8 py-20 lg:grid-cols-12 lg:px-14">
+      <div className="mx-auto grid max-w-[1320px] gap-10 px-4 py-12 sm:px-6 sm:py-20 lg:grid-cols-12 lg:px-14">
         <div className="lg:col-span-5">
           <Wordmark size={32} tone="paper" />
           <p

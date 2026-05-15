@@ -8,7 +8,7 @@ import { PiArrowLeft } from "react-icons/pi";
  */
 export function ScreenStage({ children }: { children: ReactNode }) {
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 pt-6 pb-16 lg:px-10 lg:pt-10 lg:pb-24">
+    <div className="mx-auto w-full max-w-6xl px-3 pt-5 pb-16 sm:px-5 sm:pt-6 lg:px-10 lg:pt-10 lg:pb-24">
       {children}
     </div>
   );
@@ -34,26 +34,26 @@ export function PageHeader({
 }) {
   const navigate = useNavigate();
   return (
-    <header className="mb-8 flex items-start justify-between gap-4 lg:mb-12">
+    <header className="mb-6 flex items-start justify-between gap-3 sm:mb-8 sm:gap-4 lg:mb-12">
       <div className="flex flex-1 items-start gap-3 lg:gap-5">
         {back !== undefined && (
           <button
             onClick={() => (back ? navigate({ to: back }) : window.history.back())}
-            className="mt-1 grid h-9 w-9 place-items-center rounded-full border border-line text-ink-3 transition hover:bg-paper-2 hover:text-ink lg:h-10 lg:w-10"
+            className="mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line text-ink-3 transition hover:bg-paper-2 hover:text-ink sm:h-9 sm:w-9 lg:h-10 lg:w-10"
             aria-label="Back"
           >
-            <PiArrowLeft size={16} />
+            <PiArrowLeft size={15} />
           </button>
         )}
         <div className="flex-1 min-w-0">
           {eyebrow && (
-            <div className="tiny-caps mb-2 text-protected">{eyebrow}</div>
+            <div className="tiny-caps mb-1.5 text-protected sm:mb-2">{eyebrow}</div>
           )}
           <h1
             className="font-display text-ink"
             style={{
-              fontSize: "clamp(28px, 4.5vw, 56px)",
-              lineHeight: 1.02,
+              fontSize: "clamp(24px, 5vw, 56px)",
+              lineHeight: 1.04,
               letterSpacing: "-0.025em",
               fontVariationSettings: '"opsz" 144, "SOFT" 60, "wght" 420',
             }}
@@ -61,13 +61,16 @@ export function PageHeader({
             {title}
           </h1>
           {subtitle && (
-            <p className="mt-3 max-w-2xl text-ink-3" style={{ fontSize: 16, lineHeight: 1.55 }}>
+            <p
+              className="mt-2 max-w-2xl text-ink-3 text-sm sm:mt-3 sm:text-base"
+              style={{ lineHeight: 1.55 }}
+            >
               {subtitle}
             </p>
           )}
         </div>
       </div>
-      {rightSlot && <div className="shrink-0">{rightSlot}</div>}
+      {rightSlot && <div className="hidden shrink-0 sm:block">{rightSlot}</div>}
     </header>
   );
 }
@@ -118,7 +121,7 @@ export function Card({
       ? "bg-clay-soft border-clay/30 text-clay"
       : "paper";
   return (
-    <div className={`rounded-2xl border p-5 lg:p-6 ${toneCls} ${className}`}>
+    <div className={`rounded-2xl border p-4 sm:p-5 lg:p-6 ${toneCls} ${className}`}>
       {children}
     </div>
   );
@@ -130,7 +133,7 @@ export function Card({
  */
 export function ActionBar({ children }: { children: ReactNode }) {
   return (
-    <div className="mt-10 flex flex-col gap-3 lg:mt-12 lg:flex-row lg:items-center lg:justify-end">
+    <div className="mt-8 flex flex-col gap-3 sm:mt-10 lg:mt-12 lg:flex-row lg:items-center lg:justify-end">
       {children}
     </div>
   );

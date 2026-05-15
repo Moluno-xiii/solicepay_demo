@@ -20,7 +20,7 @@ export function Phone({ children, time = "9:41", caption, step, className }: Pho
     <div className={`relative inline-flex flex-col items-center ${className ?? ""}`}>
       {step && (
         <div
-          className="font-display-soft pointer-events-none absolute -top-6 -left-12 text-[180px] leading-none"
+          className="font-display-soft pointer-events-none absolute -top-6 -left-12 text-[140px] leading-none hidden sm:block lg:text-[180px]"
           style={{
             color: "var(--color-paper-3)",
             fontVariationSettings: '"opsz" 144, "SOFT" 100, "wght" 400',
@@ -30,7 +30,7 @@ export function Phone({ children, time = "9:41", caption, step, className }: Pho
           {step}
         </div>
       )}
-      <div className="device" style={{ width: 320 }}>
+      <div className="device w-full max-w-[320px]">
         <div className="device-screen no-scrollbar">
           <div className="status-bar">
             <span>{time}</span>

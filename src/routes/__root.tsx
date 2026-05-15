@@ -3,7 +3,6 @@ import {
   Outlet,
   useRouterState,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { DemoProvider } from "@/lib/store";
 import { ThemeProvider } from "@/lib/theme";
 import { DemoBar } from "@/components/DemoBar";
@@ -19,7 +18,6 @@ const RootLayout = () => {
         <main className="flex min-h-dvh w-full flex-col">
           {showBar && <DemoBar />}
           <Outlet />
-          <TanStackRouterDevtools />
         </main>
       </DemoProvider>
     </ThemeProvider>
