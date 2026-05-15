@@ -1,0 +1,274 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   SolicePay — Editorial Trust design system
+   Tokens consumed by Tailwind v4 via @theme.
+   ------------------------------------------------------------------ */
+@theme {
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-paper: #f3ecdc;
+  --color-paper-2: #e9e0cb;
+  --color-paper-3: #ddd1b6;
+  --color-ink: #0e0f12;
+  --color-ink-2: #2a2c33;
+  --color-ink-3: #5d5f68;
+  --color-ink-4: #8a8c93;
+
+  --color-protected: #1f5f4a;
+  --color-protected-2: #2d8061;
+  --color-protected-soft: #d4e4dc;
+
+  --color-seal: #c8a552;
+  --color-seal-deep: #8a6f2f;
+  --color-seal-soft: #efe2bd;
+
+  --color-clay: #b14b2d;
+  --color-clay-soft: #ecd2c4;
+
+  --color-line: rgba(14, 15, 18, 0.1);
+  --color-line-strong: rgba(14, 15, 18, 0.22);
+
+  --shadow-paper: 0 1px 0 rgba(14,15,18,0.04), 0 14px 40px -18px rgba(14,15,18,0.18);
+  --shadow-lift: 0 2px 0 rgba(14,15,18,0.06), 0 30px 60px -30px rgba(14,15,18,0.35);
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+html, body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "ss02";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* ------------------------------------------------------------------
+   Dark theme — same composition, inverted gravity. Cream text on
+   ink backdrop; the gold seal pops, emerald reads as a glow.
+   ------------------------------------------------------------------ */
+html[data-theme="dark"] {
+  --color-paper: #15161b;
+  --color-paper-2: #1d1f25;
+  --color-paper-3: #262932;
+  --color-ink: #f3ecdc;
+  --color-ink-2: #d3ccbe;
+  --color-ink-3: #9a9486;
+  --color-ink-4: #6a675e;
+
+  --color-protected: #4ec196;
+  --color-protected-2: #6dd1aa;
+  --color-protected-soft: rgba(78, 193, 150, 0.14);
+
+  --color-seal: #e3c069;
+  --color-seal-deep: #d4a93f;
+  --color-seal-soft: rgba(227, 192, 105, 0.12);
+
+  --color-clay: #de7c5a;
+  --color-clay-soft: rgba(222, 124, 90, 0.14);
+
+  --color-line: rgba(243, 236, 220, 0.1);
+  --color-line-strong: rgba(243, 236, 220, 0.22);
+
+  --shadow-paper: 0 1px 0 rgba(0,0,0,0.2), 0 14px 40px -18px rgba(0,0,0,0.6);
+  --shadow-lift: 0 2px 0 rgba(0,0,0,0.3), 0 30px 60px -30px rgba(0,0,0,0.8);
+}
+
+body {
+  background-color: var(--color-paper);
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(200, 165, 82, 0.08), transparent 38%),
+    radial-gradient(circle at 88% 8%, rgba(31, 95, 74, 0.07), transparent 40%),
+    radial-gradient(circle at 70% 88%, rgba(177, 75, 45, 0.05), transparent 42%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.05 0 0 0 0 0.05 0 0 0 0 0.05 0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-attachment: fixed, fixed, fixed, fixed;
+  background-size: auto, auto, auto, 240px 240px;
+}
+
+html[data-theme="dark"] body {
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(227, 192, 105, 0.08), transparent 38%),
+    radial-gradient(circle at 88% 8%, rgba(78, 193, 150, 0.06), transparent 40%),
+    radial-gradient(circle at 70% 88%, rgba(222, 124, 90, 0.05), transparent 42%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.86 0 0 0 0.07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+/* ------------------------------------------------------------------
+   Typography utilities
+   ------------------------------------------------------------------ */
+.font-display { font-family: var(--font-display); font-optical-sizing: auto; font-variation-settings: "SOFT" 50; }
+.font-display-soft { font-family: var(--font-display); font-optical-sizing: auto; font-variation-settings: "SOFT" 100; }
+.font-display-sharp { font-family: var(--font-display); font-optical-sizing: auto; font-variation-settings: "SOFT" 0; }
+
+.numeric { font-feature-settings: "tnum", "lnum"; font-variant-numeric: tabular-nums lining-nums; }
+
+.tiny-caps {
+  font-family: var(--font-mono);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  font-weight: 500;
+}
+
+.stamp-frame {
+  border: 1.5px solid currentColor;
+  padding: 0.45rem 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+}
+
+.rule {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-line-strong) 18%, var(--color-line-strong) 82%, transparent);
+}
+
+/* ------------------------------------------------------------------
+   Card surfaces
+   ------------------------------------------------------------------ */
+.paper {
+  background: #fbf6e8;
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-paper);
+  position: relative;
+}
+html[data-theme="dark"] .paper {
+  background: #1d1f25;
+}
+.paper-dark {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  border: 1px solid #1d1f25;
+  box-shadow: var(--shadow-lift);
+}
+
+/* Receipt rule lines */
+.receipt-rule {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 27px,
+    var(--color-line) 27px 28px
+  );
+}
+
+/* ------------------------------------------------------------------
+   Phone device chrome
+   ------------------------------------------------------------------ */
+.device {
+  border-radius: 38px;
+  background: #0a0b0d;
+  padding: 10px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.04) inset,
+    0 0 0 1px #1c1d22,
+    0 30px 70px -28px rgba(14,15,18,0.6),
+    0 4px 0 rgba(14,15,18,0.08);
+  position: relative;
+}
+.device-screen {
+  border-radius: 28px;
+  background: #fbf6e8;
+  overflow: hidden;
+  position: relative;
+  height: 640px;
+  display: flex;
+  flex-direction: column;
+}
+html[data-theme="dark"] .device-screen {
+  background: #1d1f25;
+}
+.device::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 88px;
+  height: 22px;
+  border-radius: 999px;
+  background: #0a0b0d;
+  z-index: 5;
+}
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 22px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: 0.05em;
+}
+
+/* ------------------------------------------------------------------
+   Animations
+   ------------------------------------------------------------------ */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+@keyframes seal-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.seal-spin { animation: seal-rotate 38s linear infinite; transform-origin: center; }
+
+@keyframes pulse-ring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(31, 95, 74, 0.45); }
+  50% { box-shadow: 0 0 0 14px rgba(31, 95, 74, 0); }
+}
+.pulse-ring { animation: pulse-ring 2.6s ease-out infinite; }
+
+/* Decorative diagonal stripes for stamps */
+.stripe-protect {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-protected) 0 8px,
+    var(--color-protected-2) 8px 14px
+  );
+}
+.stripe-clay {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-clay) 0 8px,
+    #c25a3c 8px 14px
+  );
+}
+.stripe-seal {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-ink) 0 6px,
+    var(--color-seal) 6px 12px
+  );
+}
+
+/* Hide scrollbars on inner phone screens but allow scroll */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }

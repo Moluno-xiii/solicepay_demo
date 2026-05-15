@@ -1,0 +1,285 @@
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+  PiPackageFill,
+  PiShieldCheckFill,
+  PiClockFill,
+  PiSealCheckFill,
+  PiWarningOctagonFill,
+} from "react-icons/pi";
+import { ScreenStage } from "@/components/ScreenStage";
+import {
+  ScreenHeader,
+  MoneyRow,
+  StatusTimeline,
+  STATUS_TO_INDEX,
+  PrimaryButton,
+  GhostButton,
+  Avatar,
+  initialsOf,
+} from "@/components/screen-bits";
+import { useLink, useStore } from "@/lib/store";
+import {
+  formatNaira,
+  platformFee,
+  settledToSeller,
+  totalToProtect,
+} from "@/lib/types";
+
+export const Route = createFileRoute("/seller/txn/$id")({
+  component: SellerTxn,
+});
+
+function SellerTxn() {
+  const { id } = Route.useParams();
+  const link = useLink(id);
+  const navigate = useNavigate();
+  const { advance } = useStore();
+
+  if (!link) {
+    return (
+      <ScreenStage>
+        <div className="grid h-full place-items-center text-ink-3 text-sm">
+          TrustLink not found.
+        </div>
+      </ScreenStage>
+    );
+  }
+
+  const isWaiting = link.status === "pending_payment";
+  const canDispatch = link.status === "protected";
+  const hasIssue = link.status === "issue_open";
+  const isReleased = link.status === "released";
+
+  const release = () => advance(link.id, "released");
+
+  return (
+    <ScreenStage
+      caption="Seller's view of the same TrustLink — payment status, dispatch action, and dispute."
+      side={
+        <div className="ml-auto max-w-[280px] text-right">
+          <div className="tiny-caps text-protected">Seller view</div>
+          <div
+            className="font-display mt-2 text-ink"
+            style={{ fontSize: 32, lineHeight: 1, letterSpacing: "-0.015em" }}
+          >
+            {link.id}
+          </div>
+          <p className="mt-3 text-sm text-ink-3" style={{ lineHeight: 1.5 }}>
+            From here you ship the product and watch escrow release. If the
+            buyer raises an issue, you'll see it instantly with a 24h
+            response window.
+          </p>
+        </div>
+      }
+    >
+      <div className="flex h-full flex-col">
+        <ScreenHeader
+          title={`#${link.id.split("-")[1]}`}
+          sub={
+            isWaiting
+              ? "Awaiting payment"
+              : canDispatch
+              ? "Payment protected"
+              : link.status === "dispatched"
+              ? "In transit"
+              : link.status === "delivered"
+              ? "Delivered · awaiting confirm"
+              : hasIssue
+              ? "Issue open"
+              : isReleased
+              ? "Released"
+              : link.status
+          }
+          back="/seller"
+        />
+
+        <div className="flex-1 overflow-auto px-5 py-4 no-scrollbar">
+          <div className="px-1">
+            <StatusTimeline active={STATUS_TO_INDEX[link.status]} />
+          </div>
+
+          {/* Hero status card */}
+          <div className="mt-5 rounded-2xl border border-line bg-paper p-4">
+            <div className="flex items-center gap-3">
+              <div className="grid h-12 w-12 place-items-center rounded-full bg-protected text-paper">
+                {isWaiting ? (
+                  <PiClockFill size={20} />
+                ) : hasIssue ? (
+                  <PiWarningOctagonFill size={20} />
+                ) : (
+                  <PiShieldCheckFill size={20} />
+                )}
+              </div>
+              <div className="flex-1">
+                <div
+                  className="font-display text-ink"
+                  style={{ fontSize: 16 }}
+                >
+                  {isWaiting
+                    ? "Waiting for buyer to pay"
+                    : canDispatch
+                    ? "Buyer paid · funds in escrow"
+                    : link.status === "dispatched"
+                    ? "Tunde will receive soon"
+                    : link.status === "delivered"
+                    ? "Awaiting buyer confirmation"
+                    : hasIssue
+                    ? "Tunde raised an issue"
+                    : isReleased
+                    ? "Funds settled to your bank"
+                    : ""}
+                </div>
+                <div
+                  className="tiny-caps text-ink-3"
+                  style={{ fontSize: 9 }}
+                >
+                  {formatNaira(totalToProtect(link))} held
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Buyer card */}
+          <div className="mt-3 rounded-2xl border border-line bg-paper p-3">
+            <div className="tiny-caps mb-2 text-ink-3">Buyer</div>
+            <div className="flex items-center gap-3">
+              <Avatar
+                hue={link.buyer.avatarHue}
+                size={42}
+                initials={initialsOf(link.buyer.name)}
+              />
+              <div className="flex-1">
+                <div
+                  className="font-display text-ink"
+                  style={{ fontSize: 14 }}
+                >
+                  {link.buyer.name}
+                </div>
+                <div
+                  className="tiny-caps text-ink-3"
+                  style={{ fontSize: 9 }}
+                >
+                  {link.buyer.city} · Trust {link.buyer.trustScore.toFixed(2)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Money breakdown */}
+          <div className="mt-3 rounded-2xl border border-line bg-paper-2/30 px-3 py-2">
+            <MoneyRow
+              label="Buyer paid"
+              amount={formatNaira(totalToProtect(link))}
+              mute
+            />
+            <MoneyRow
+              label="Platform fee"
+              amount={`-${formatNaira(platformFee(link))}`}
+              mute
+            />
+            <div className="mt-1 border-t border-line pt-1">
+              <MoneyRow
+                label={isReleased ? "Settled" : "You'll receive"}
+                amount={formatNaira(settledToSeller(link))}
+                bold
+              />
+            </div>
+          </div>
+
+          {/* Dispatch info if present */}
+          {link.dispatch && (
+            <div className="mt-3 rounded-2xl border border-line bg-paper p-3">
+              <div className="tiny-caps mb-2 text-ink-3">Dispatch</div>
+              <div className="flex items-center gap-2">
+                <PiPackageFill size={14} className="text-protected" />
+                <div className="text-xs text-ink">
+                  {link.dispatch.courier} ·{" "}
+                  <span className="font-mono">{link.dispatch.tracking}</span>
+                </div>
+              </div>
+              <div
+                className="tiny-caps text-ink-3 mt-1"
+                style={{ fontSize: 9 }}
+              >
+                Sent {link.dispatch.dispatchedAt} · ETA {link.dispatch.eta}
+              </div>
+            </div>
+          )}
+
+          {/* Issue panel */}
+          {hasIssue && link.issue && (
+            <div className="mt-3 rounded-2xl border border-clay bg-clay-soft p-3 text-clay">
+              <div className="tiny-caps">Issue raised by buyer</div>
+              <div className="mt-1 text-sm">{link.issue.type}</div>
+              <div className="mt-1 text-xs italic">"{link.issue.note}"</div>
+            </div>
+          )}
+
+          {/* Released seal */}
+          {isReleased && (
+            <div className="mt-3 grid place-items-center rounded-2xl border border-protected bg-protected-soft p-4 text-protected">
+              <PiSealCheckFill size={22} />
+              <div
+                className="font-display mt-1"
+                style={{ fontSize: 16 }}
+              >
+                Released to your bank
+              </div>
+              <div
+                className="tiny-caps mt-0.5 text-protected"
+                style={{ fontSize: 9 }}
+              >
+                {formatNaira(settledToSeller(link))} on the way
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="space-y-2 border-t border-line p-3">
+          {canDispatch && (
+            <PrimaryButton
+              onClick={() =>
+                navigate({
+                  to: "/seller/txn/$id/dispatch",
+                  params: { id: link.id },
+                })
+              }
+            >
+              Mark as dispatched
+            </PrimaryButton>
+          )}
+          {hasIssue && (
+            <PrimaryButton
+              tone="clay"
+              onClick={() =>
+                navigate({
+                  to: "/seller/txn/$id/respond",
+                  params: { id: link.id },
+                })
+              }
+            >
+              Respond to issue
+            </PrimaryButton>
+          )}
+          {link.status === "delivered" && (
+            <PrimaryButton tone="protected" onClick={release}>
+              Release funds (auto-fires in 48h)
+            </PrimaryButton>
+          )}
+          {isWaiting && (
+            <GhostButton
+              onClick={() =>
+                navigate({ to: "/t/$id", params: { id: link.id } })
+              }
+            >
+              Open as buyer →
+            </GhostButton>
+          )}
+          <GhostButton onClick={() => navigate({ to: "/seller" })}>
+            Back to dashboard
+          </GhostButton>
+        </div>
+      </div>
+    </ScreenStage>
+  );
+}
